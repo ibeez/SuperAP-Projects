@@ -1,0 +1,29 @@
+body{
+    margin: 0;
+    background-color: black;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+.container{
+    max-width: 1140px;
+    background-color: #ffffff;
+    height: 700px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+h1{
+    font-size: 30px;
+    margin: 0;
+}
+
+nav{
+    float: left;
+    width: 100%;
+    background-color: gray;
+    text-align: center;
+    padding: 30px 15px;
+}
