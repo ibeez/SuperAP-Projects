@@ -68,22 +68,39 @@ def getAllUsableLinksFrom(whatsThisLinkTo):
 #############################################################################################################################################
 
 
+#endLinks2 = [link('none','fee'),link(99,"tree"),link(0,'fi'),link(999999,"humboldt"),link(2,'fo'),link(4,'fum')]
 
+#######################################################################################################################
 sources = []
-def getSource(link):
-    if link.source == 'none': 
-        return ""
-    for i in endLinks2:
-        if i == link:
-            sources.append(i.source)
-            getSource(i)
-    sourceList = '' 
-    for i in reversed(sources):
-        sourcelist = sourcelist, '=====>', i
+def getSource(final):
+    linkat = endLinks2[final]
+    while True: 
+        if linkat.source == 'none':
+            sources.append(linkat.linkstothis)
+            break
+        else:
+            sources.append(linkat.linkstothis)
+            print(linkat.linkstothis)
+            linkat = endLinks2[linkat.source]
+    
+
+def printSource():
+    sourceList = ''
+    sources.reverse()
+    for i in sources:
+        print(i)
+        sourceList = sourceList + '=====>' + i
+    print(sourceList[6:])
+######################################################################################################################   
+
+
+#getSource(5)
+#printSource()
+
 
 
 def findAMatch(start, end):
- endLinks2.append(link('none',start))
- finishlinks2.append(link('none',end))
+    endLinks2.append(link('none',start))
+    finishlinks2.append(link('none',end))
 # #print(findAMatch("https://en.wikipedia.org/wiki/Anatomical_terms_of_location","https://en.wikipedia.org/wiki/Padarn_Beisrudd"))
 # print(findAMatch("https://en.wikipedia.org/wiki/Cat","https://en.wikipedia.org/wiki/Deciduous_teeth"))
