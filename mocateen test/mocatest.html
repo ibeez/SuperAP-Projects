@@ -1,0 +1,46 @@
+<html>  
+<head>   
+<title> Moca Teen Night 2022 Online Activity 1 </title>  
+</head>  
+<script>  
+function getStuff() {  
+//declare arrays to store images and text  
+var randomImage = new Array();  
+var randomText = new Array();
+//write image names and text to be displayed into arrays
+randomImage[0] = "img1.jpg";  
+randomImage[1] = "img2.jpg";  
+randomImage[2] = "img3.jpg";  
+
+randomText[0] = "text 1";
+randomText[1] = "text 2";
+randomText[2] = "text 3";
+//generate a random number within the size of the array of images  
+var number = Math.floor(Math.random()*randomImage.length);  
+  
+//return the same numbered element in the ordered arrays of text and images 
+document.getElementById("result").innerHTML = '<img src="'+randomImage[number]+'" />';
+document.getElementById("text").innerHTML = randomText[number];
+//pick random background color independent of image and text 
+var bgcolorlist=new Array("#228B22", "#FFD700", "#ADFF2F", "#FF69B4", "#CD5C5C", "#4B0082", "#7CFC00", "#ADD8E6", "#E84643", "#ED0A07", "#EA2907", "#E5294B", "#E00D26", "#FF3030", "#FC7500", "#F95700", "#F43900", "#F95620") 
+document.body.style.background=bgcolorlist[Math.floor(Math.random()*bgcolorlist.length)]; 
+}  
+  
+
+window.onload = getStuff;
+</script>  
+<body>  
+<br><br><br>
+<p id ="text" style="text-align: center"></p>
+<br><br>
+<div style="text-align: center"><span id="result"> </span> </div>
+</body>    
+<!--style sheet for page-->
+<style>
+body{
+    font-size: xx-large;
+    /*change font type here*/
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+</style>
+</html>  
