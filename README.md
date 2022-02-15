@@ -5,3 +5,6 @@ The wikipedia project is based on the 'wikipedia game', where the goal is to tra
 
 
 The maze folder is a small project I started over the summer and finished at the start of the year(but forgot to put on github until I was looking through my project folders on my laptop). It randomly generates a small maze, represented by a matrix of open or closed squares, and has a GUI where buttons can be pressed to move around the maze in directions. If the player reaches the edge, they win. 
+
+
+'mocateen test' is a small project I built for my brother, who does an internship at the LA museum of contemporary art. His group wanted a web page for an upcoming online event that would display a random phrase and image that are linked to one another on a seperate random background color, so I made a page that he could use and substitute in the names of files and the text he needed.
