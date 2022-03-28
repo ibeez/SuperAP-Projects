@@ -6,7 +6,13 @@ import enchant
 #pyenchant is a python module used for spell checking that returns a true or false answer depending on if the given string is a valid english word 
 dictionary = enchant.Dict("en_US")
 
-
+#class to store the x and y values of letter on the crossword 
+class Coord():
+    def __init__(self,x,y,letter,wordstatus):
+        self.x = x
+        self.y = y
+        self.letter = letter
+        self.wordstatus = wordstatus
 #allows input for a word to be turned into a crossword 
 rootword = input("insert word:")
 brokenword = []
@@ -47,15 +53,17 @@ print(validanagrams)
 
 rows, cols = (10,10)
 arr = [[" " for i in range(cols)]for j in range(rows)]
-for x in range(len(arr)):
-    print(arr[x])
-
+#array to hold coordinates of spaces containing words 
+usedcoords = []
 #function to break a string into a list of characters 
 def breakword(thingy):
     broken = []
     for i in range(len(thingy)):
         broken.append(thingy[i:i+1])
     return broken 
+
+#holds spots in crossword containing letters 
+coords = []
 def startCrossword():
     wordpicker = random.choice(validanagrams)
     print(wordpicker)
@@ -63,13 +71,59 @@ def startCrossword():
     spotpicker = random.randint(0,len(arr) - len(wordpicker) - 1)
     wordToAdd = breakword(wordpicker)
     for i in range(len(wordToAdd)):
-        arr[rowpicker][spotpicker + i] = wordToAdd[i]
-    
+        xpicked = rowpicker
+        ypicked = spotpicker -1 + i
+        arr[xpicked][ypicked] = wordToAdd[i]
+        coords.append(Coord(xpicked,ypicked,wordToAdd[i],'horizontal'))
+    validanagrams.remove(wordpicker)
 
-def addCrossWord(): 
-    print("")
+
+def addCrossWord():
+    addTo = random.choice(coords)
+    baseletter = addTo.letter 
+    #print('base letter: ' + baseletter)
+    nextWord = ""
+    if addTo.wordstatus == 'horizontal':
+        newWordStatus = 'vertical'
+    else:
+        newWordStatus = 'horizontal'
+    while nextWord == "":   
+        testWordUsable = False
+        while testWordUsable == False:
+            testWord = random.choice(validanagrams)
+            if testWord.find(baseletter) != -1:
+                testWordUsable = True
+                testWordParts = testWord.split(baseletter,1)
+        if newWordStatus == 'vertical':
+            midRow = addTo.x
+            if midRow - len(testWordParts[0]) > -1 and midRow + len(testWordParts[1]) < 10:
+                nextWord = testWord
+        else:
+            midLetter = addTo.y
+            if midLetter - len(testWordParts[0]) > -1 and midLetter + len(testWordParts[1]) < 10:
+                nextWord = testWord
+                coords.remove(addTo)
+        if newWordStatus == 'vertical':
+            lineUp = addTo.y
+            nextWordLetters = breakword(nextWord)
+            startingPoint = midRow - len(testWordParts[0])
+            for i in range(len(nextWordLetters)):
+                arr[startingPoint + i][lineUp] = nextWordLetters[i]
+                coords.append(Coord(startingPoint + i, lineUp,nextWordLetters[i], 'vertical'))
+        else: 
+            row = addTo.x
+            midLetter = addTo.y
+            nextWordLetters = breakword(nextWord)
+            startingPoint = midLetter - len(testWordParts[0])
+            for i in range(len(nextWordLetters)):
+                arr[row][startingPoint + i] = nextWordLetters[i]
+                coords.append(Coord(row, startingPoint + i,nextWordLetters[i], 'horizontal'))
+        print(nextWord)
+
 
 
 startCrossword()
+for i in range(0,3):
+    addCrossWord()
 for x in range(len(arr)):
     print(arr[x])
