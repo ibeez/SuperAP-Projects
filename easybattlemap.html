@@ -1,0 +1,227 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/fe34d9139b.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>EasyBattleMap</title>
+    </head>
+<body>
+    <!-- Rounded switch -->
+<!-- <div class="center"id="hexsquare">
+    <p class="center">Squares-Hexes</p>
+    <label class="switch">
+        <input class="center" type="checkbox">
+        <span class="slider round"></span>
+    </label> -->
+    
+</div> 
+<br>
+<div class="d-flex justify-content-center">
+  <input type="range" min="1" max="20" value="10" class="slider" id="dimensions">
+</div>
+<br>
+<div class="d-flex justify-content-center">
+  <button type="button"id='center'onclick='drawMap()'>generate map</button>
+</div>
+<br>
+<!--
+<div class="main d-flex flex-row">
+  <div class="left p-2"id='roster'>
+  
+  </div>
+  <div class="center p-2"id='map'>
+  
+  </div>
+  <div class="right rightelements p-2">
+    <div class="right p-2" id="sizebars">
+      <input type="range" min="1" max="100" value="50" class="sizebar" id="length">
+      <br>
+      <input type="range" min="1" max="100" value="50" class="sizebar" id="width">
+      <br>
+      <button type="button">generate the map</button>
+    </div>
+    <br>
+    <div class="right" id="creator">
+    </div>
+  </div>
+ 
+</div>
+-->
+<div class="d-flex justify-content-between">
+  <div class= 'left' id="roster">
+    <input type="file"id='backgroundimage'name='image'accept='image/*'>
+
+  </div>
+  <div id="map">
+    <div class="grid-item"id='hex'data-color = 'black'></div>
+    <div class="grid"id='mainmap'>
+    </div>
+  </div>
+  <div id="rightstuff">
+    <div id="charactercreator">
+      <div id ='pfp'>
+      <div id="img-preview"></div>
+      <input type="file"id='filepicker'name="image"accept='image/*'>
+      </div>
+      <br><br>
+      <select name="size" id="sizepicker"class='center'>
+        <option value="tiny">tiny</option>
+        <option value="small">small</option>
+        <option value="medium">medium</option>
+        <option value="large">large</option>
+        <option value="huge">huge</option>
+        <option value="giant">giant</option>
+      </select>
+    <br><br><br>
+    <button type="button"class='center'onclick='makeToken()'>create character</button>
+    </div>
+  </div>
+</div>
+<div class="center"id="key">
+
+</div>
+</body>
+<script id="charactergeneration">
+  var size0 = document.getElementById("sizepicker");
+  var size = size0.value;
+  const chooseFile = document.getElementById("filepicker");
+  chooseFile.addEventListener("change", function () {getImgData();});
+  function getImgData() {
+  const files = chooseFile.files[0];
+  if (files) {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(files);
+    fileReader.addEventListener("load", function () {
+      imgPreview.style.display = "block";
+      imgPreview.innerHTML = '<img src="' + this.result + '" />';
+    });    
+  }
+}
+</script>
+<script id="gridgeneration">
+function drawMap()
+{
+  var BG = 
+  var mapBG = document.getElementById('map');
+  $mapBg.css({"background-image":"BG"})
+  //alert('function went off!');
+  $('.grid').empty();
+  var x = document.getElementById("dimensions").value; 
+  //alert(x);
+  var y = x * x;
+  //alert(y);
+  //$("div").hide();
+  for(var i=0;i<y;i++)
+  {
+    var $newhex = $("#hex").clone().prop('id','hex'+i);
+    $newhex.appendTo('#mainmap')
+    //var $newhex = $("#hex").clone().appendTo("#mainmap");
+    //var $klon = $div.clone().prop('id', 'klon'+num );
+    //you can add other logic here, like you want diferent id or class to add in new box
+  }
+ 
+  $(".grid").css({"display":"grid","grid-template-columns":"repeat("+x+", 1fr)"});
+  $(".grid > div").attr("onclick","switchColor()")
+  $(".grid > div").css({"background-color":"black"})
+  //display: grid;
+    //grid-template-columns: repeat(4, 1fr);
+    //grid-gap: 1rem;
+}
+function switchColor()
+{
+  var squareid = event.target.id;
+  var square = document.getElementById(squareid);
+  currentColor = square.dataset.color;
+  if(currentColor == "black")
+  {
+    $(event.target).css({'background-color':'red'});
+    event.target.dataset.color = 'red';
+  }
+  else if(currentColor == 'red')
+  {
+    $(event.target).css({'background-color':'blue'});
+    event.target.dataset.color = 'blue';
+  }
+  else if(currentColor == 'blue')
+  {
+    $(event.target).css({'background-color':'black'})
+    event.target.dataset.color = 'black';
+  }
+}
+</script>
+<style id = 'grid'>
+#dimensions
+{
+    width: 500px;
+}
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 0.5rem;
+  }
+  .grid > div{
+    content: "";
+    padding-bottom: 100%;
+    display: block;
+    border-radius: 10%;
+    opacity: 0.5;
+  }
+</style>
+
+<style id="entire page changes">
+#creator
+{
+  height: 500px;
+  width: 250px;
+  background-color: cadetblue;
+}
+#roster
+{
+  height: 750px;
+  width: 250px;
+  background-color: aquamarine;
+}
+#map
+{
+  height: 750px;
+  width: 750px;
+  background-color: aquamarine;
+}
+#rightstuff
+{
+  margin-right: 1cm;
+  height: 750px;
+  width: 250px;
+  background-color: aquamarine; 
+}
+.space
+{
+  height:50px; 
+  width: 50px;
+  background-color: bisque;
+}
+.sizebar
+{
+  width: 100%;
+  text-align: right;
+  margin-bottom: 4mm;
+  margin-right: 10%;
+}
+.left
+{
+  margin-left: 1cm;
+}
+.right
+{
+  text-align: right;
+  margin-right: 3cm;
+}
+body
+{
+    font-family: 'Lucida Sans';
+}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</html> 
