@@ -50,12 +50,13 @@
 -->
 <div class="d-flex justify-content-between">
   <div class= 'left' id="roster">
-    <input type="file"id='backgroundimage'name='image'accept='image/*'>
-
+    <input type='file' accept='image/*' onchange='openFile(event)'><br>
+    <img id='output' style="height:100px; width:100px;">
   </div>
   <div id="map">
-    <div class="grid-item"id='hex'data-color = 'black'></div>
+    <div class="grid-item"id='hex'data-color = 'black'></div>  
     <div class="grid"id='mainmap'>
+    <img id="backgroundimage" style="height:750px; width:750px; position:absolute;">
     </div>
   </div>
   <div id="rightstuff">
@@ -82,31 +83,29 @@
 
 </div>
 </body>
-<script id="charactergeneration">
-  var size0 = document.getElementById("sizepicker");
-  var size = size0.value;
-  const chooseFile = document.getElementById("filepicker");
-  chooseFile.addEventListener("change", function () {getImgData();});
-  function getImgData() {
-  const files = chooseFile.files[0];
-  if (files) {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(files);
-    fileReader.addEventListener("load", function () {
-      imgPreview.style.display = "block";
-      imgPreview.innerHTML = '<img src="' + this.result + '" />';
-    });    
-  }
-}
+<script id = 'background'>
+  var openFile = function(file) {
+        var input = file.target;
+
+        var reader = new FileReader();
+    reader.onload = function(){
+      var dataURL = reader.result;
+      var output = document.getElementById('output');
+      output.src = dataURL;
+      var mapoutput = document.getElementById('backgroundimage');
+      mapoutput.src = dataURL;
+    };
+    reader.readAsDataURL(input.files[0]);
+  };
 </script>
 <script id="gridgeneration">
 function drawMap()
 {
-  var BG = 
-  var mapBG = document.getElementById('map');
-  $mapBg.css({"background-image":"BG"})
+  
   //alert('function went off!');
+  var img = $("#backgroundimage").clone();
   $('.grid').empty();
+  $('.grid').append(img);
   var x = document.getElementById("dimensions").value; 
   //alert(x);
   var y = x * x;
