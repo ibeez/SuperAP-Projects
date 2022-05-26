@@ -18,7 +18,8 @@
 </div> 
 <br>
 <div class="d-flex justify-content-center">
-  <input type="range" min="1" max="20" value="10" class="slider" id="dimensions">
+  <input type="range" min="1" max="20" value="10" class="slider" id="dimensions1">
+  <input type="range" min="1" max="20" value="10" class="slider" id="dimensions2">
 </div>
 <br>
 <div class="d-flex justify-content-center">
@@ -30,7 +31,7 @@
   <div class="left p-2"id='roster'>
   
   </div>
-  <div class="center p-2"id='map'>
+  <div class="center p-2"id='map'>  
   
   </div>
   <div class="right rightelements p-2">
@@ -51,7 +52,6 @@
 <div class="d-flex justify-content-between">
   <div class= 'left' id="roster">
     <input type='file' accept='image/*' onchange='openFile(event)'><br>
-    <img id='output' style="height:100px; width:100px;">
   </div>
   <div id="map">
     <div class="grid-item"id='hex'data-color = 'black'></div>  
@@ -90,8 +90,6 @@
         var reader = new FileReader();
     reader.onload = function(){
       var dataURL = reader.result;
-      var output = document.getElementById('output');
-      output.src = dataURL;
       var mapoutput = document.getElementById('backgroundimage');
       mapoutput.src = dataURL;
     };
@@ -106,12 +104,13 @@ function drawMap()
   var img = $("#backgroundimage").clone();
   $('.grid').empty();
   $('.grid').append(img);
-  var x = document.getElementById("dimensions").value; 
+  var x = document.getElementById("dimensions1").value; 
+  var y = document.getElementById("dimensions2").value;
   //alert(x);
-  var y = x * x;
+  var hexes = x * y;
   //alert(y);
   //$("div").hide();
-  for(var i=0;i<y;i++)
+  for(var i=0;i<hexes;i++)
   {
     var $newhex = $("#hex").clone().prop('id','hex'+i);
     $newhex.appendTo('#mainmap')
@@ -120,9 +119,10 @@ function drawMap()
     //you can add other logic here, like you want diferent id or class to add in new box
   }
  
-  $(".grid").css({"display":"grid","grid-template-columns":"repeat("+x+", 1fr)"});
+  $(".grid").css({"display":"grid","grid-template-columns":"repeat("+x+", 1fr)","grid-template-rows":"repeat("+y+", 1fr)"});
   $(".grid > div").attr("onclick","switchColor()")
   $(".grid > div").css({"background-color":"black"})
+  $(".grid").css({"height": y * 50 + 'px',"width": x * 50 + 'px'});
   //display: grid;
     //grid-template-columns: repeat(4, 1fr);
     //grid-gap: 1rem;
@@ -150,13 +150,18 @@ function switchColor()
 }
 </script>
 <style id = 'grid'>
-#dimensions
+#dimensions1
 {
     width: 500px;
+}
+#dimensions2
+{
+  width: 500px;
 }
   .grid{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     grid-gap: 0.5rem;
   }
   .grid > div{
